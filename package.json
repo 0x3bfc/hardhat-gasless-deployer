@@ -1,9 +1,9 @@
 {
-  "name": "hardhat-ts-plugin-boilerplate",
+  "name": "hardhat-gasless-deployer",
   "version": "0.0.1",
-  "description": "Hardhat TypeScript plugin boilerplate",
-  "repository": "github:nomiclabs/hardhat-ts-plugin-boilerplate",
-  "author": "Nomic Labs LLC",
+  "description": "Hardhat Plugin for deploying contracts using GSN",
+  "repository": "https://github.com/0x3bfc/hardhat-gasless-deployer",
+  "author": "Ahmed Ali <ahmedaabdulwahed@gmail.com>",
   "license": "MIT",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -11,7 +11,10 @@
     "ethereum",
     "smart-contracts",
     "hardhat",
-    "hardhat-plugin"
+    "hardhat-plugin",
+    "GSN",
+    "Deployment",
+    "Gasless"
   ],
   "scripts": {
     "lint:fix": "prettier --write 'src/**/*.{js,ts}' 'test/**/*.{js,ts}' && tslint --fix --config tslint.json --project tsconfig.json",
@@ -21,6 +24,13 @@
     "watch": "tsc -w",
     "prepublishOnly": "npm run build"
   },
+  "homepage": "https://github.com/0x3bfc/hardhat-gasless-deployer#readme",
+  "bugs": {
+    "url": "https://github.com/0x3bfc/hardhat-gasless-deployer/issues"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "files": [
     "dist/src/",
     "src/",
@@ -28,21 +38,43 @@
     "README.md"
   ],
   "devDependencies": {
-    "@types/chai": "^4.1.7",
-    "@types/fs-extra": "^5.0.4",
-    "@types/mocha": "^5.2.6",
-    "@types/node": "^8.10.38",
-    "chai": "^4.2.0",
-    "hardhat": "^2.0.0",
-    "mocha": "^7.1.2",
-    "prettier": "2.0.5",
-    "ts-node": "^8.1.0",
-    "tslint": "^5.16.0",
+    "@nomicfoundation/hardhat-ethers": "^3.0.4",
+    "@ethersproject/providers": "^5.5.0",
+    "@typechain/ethers-v5": "^7.0.1",
+    "@opengsn/contracts": "^3.0.0-beta.1",
+    "@opengsn/dev": "^3.0.0-beta.1",
+    "@opengsn/paymasters": "^3.0.0-beta.1",
+    "@opengsn/provider": "^3.0.0-beta.1",
+    "@openzeppelin/contracts": "^4.9.2",
+    "@types/chai": "^4.3.5",
+    "@types/fs-extra": "^11.0.1",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^20.4.5",
+    "@typescript-eslint/eslint-plugin": "^6.2.0",
+    "@typescript-eslint/parser": "^6.2.0",
+    "chai": "^4.3.7",
+    "dotenv": "^16.3.1",
+    "eslint": "^8.45.0",
+    "eslint-config-prettier": "^8.9.0",
+    "ethers": "^6.6.6",
+    "hardhat": "^2.17.0",
+    "hardhat-deploy": "^0.7.9",
+    "hardhat-deploy-ethers": "^0.3.0-beta.8",
+    "mocha": "^10.2.0",
+    "prettier": "^3.0.0",
+    "prettier-plugin-solidity": "^1.1.3",
+    "ts-node": "^10.9.1",
     "tslint-config-prettier": "^1.18.0",
-    "tslint-plugin-prettier": "^2.0.1",
-    "typescript": "^4.0.3"
+    "tslint-plugin-prettier": "^2.3.0",
+    "typescript": "^5.1.6",
+    "undici": "^5.22.1"
   },
   "peerDependencies": {
-    "hardhat": "^2.0.0"
+    "@nomicfoundation/hardhat-ethers": "^3.0.4",
+    "@openzeppelin/contracts": "^4.9.2",
+    "hardhat": "^2.17.0"
+  },
+  "dependencies": {
+    "tslint": "^6.1.3"
   }
 }

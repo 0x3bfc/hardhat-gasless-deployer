@@ -1,49 +1,73 @@
-import { extendConfig, extendEnvironment } from "hardhat/config";
-import { lazyObject } from "hardhat/plugins";
-import { HardhatConfig, HardhatUserConfig } from "hardhat/types";
-import path from "path";
-
-import { ExampleHardhatRuntimeEnvironmentField } from "./ExampleHardhatRuntimeEnvironmentField";
-// This import is needed to let the TypeScript compiler know that it should include your type
-// extensions in your npm package's types file.
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { extendConfig, subtask, task } from "hardhat/config";
 import "./type-extensions";
+import { hHGaslessDeployerConfigExtender } from "./config";
+import { VALUE, PLUGIN_NAME, VERIFY_NETWORK_SUB_TASK } from "./constants";
+import { networks, urls } from "./networks";
+import { Deployer } from "./deployer";
 
-extendConfig(
-  (config: HardhatConfig, userConfig: Readonly<HardhatUserConfig>) => {
-    // We apply our default config here. Any other kind of config resolution
-    // or normalization should be placed here.
-    //
-    // `config` is the resolved config, which will be used during runtime and
-    // you should modify.
-    // `userConfig` is the config as provided by the user. You should not modify
-    // it.
-    //
-    // If you extended the `HardhatConfig` type, you need to make sure that
-    // executing this function ensures that the `config` object is in a valid
-    // state for its type, including its extensions. For example, you may
-    // need to apply a default value, like in this example.
-    const userPath = userConfig.paths?.newPath;
+import abi from "./abi/Deployer.json";
 
-    let newPath: string;
-    if (userPath === undefined) {
-      newPath = path.join(config.paths.root, "newPath");
-    } else {
-      if (path.isAbsolute(userPath)) {
-        newPath = userPath;
-      } else {
-        // We resolve relative paths starting from the project's root.
-        // Please keep this convention to avoid confusion.
-        newPath = path.normalize(path.join(config.paths.root, userPath));
-      }
-    }
+import { NomicLabsHardhatPluginError } from "hardhat/plugins";
+import "@nomicfoundation/hardhat-ethers";
+import { ContractDeployTransaction } from "ethers";
+import { loadInitCode, randomSalt } from "./utils";
 
-    config.paths.newPath = newPath;
+extendConfig(hHGaslessDeployerConfigExtender);
+
+task("gaslessDeploy", "Deploy contract using GSN").setAction(async (_, hre) => {
+  // verify network
+  await hre.run(VERIFY_NETWORK_SUB_TASK);
+  // compile contracts
+  await hre.run("compile");
+  // load contract ABI
+  let contract;
+
+  if (hre.config.hHGaslessDeployer.contract) {
+    contract = await hre.ethers.getContractFactory(
+      hre.config.hHGaslessDeployer.contract,
+    );
+  } else {
+    throw new NomicLabsHardhatPluginError(
+      PLUGIN_NAME,
+      `Invalid contract name!`,
+    );
   }
-);
 
-extendEnvironment((hre) => {
-  // We add a field to the Hardhat Runtime Environment here.
-  // We use lazyObject to avoid initializing things until they are actually
-  // needed.
-  hre.example = lazyObject(() => new ExampleHardhatRuntimeEnvironmentField());
+  // get initcode
+  let initcode: ContractDeployTransaction = !hre.config.hHGaslessDeployer
+    .initArgsPath
+    ? await contract.getDeployTransaction()
+    : await loadInitCode(
+        hre,
+        contract,
+        hre.config.hHGaslessDeployer.initArgsPath,
+      );
+
+  //TODO: Should skip deployment if they were already deployed
+  const [deployer] = await hre.ethers.getSigners();
+  let factory = new Deployer(hre, deployer);
+  await factory.deployAndInitFactoryAndPaymaster();
+
+  let salt = hre.config.hHGaslessDeployer.salt
+    ? hre.config.hHGaslessDeployer.salt
+    : randomSalt();
+  // deploy target contract
+  const target = await factory.deployTargetContract(salt, initcode);
+  console.log(
+    `Target contract "${hre.config.hHGaslessDeployer.contract}" has been deployed @ ${target}`,
+  );
+});
+
+subtask(VERIFY_NETWORK_SUB_TASK).setAction(async (_, hre) => {
+  let network = hre?.config?.hHGaslessDeployer?.network;
+  if (network != undefined) {
+    if (!networks.includes(network)) {
+      throw new NomicLabsHardhatPluginError(
+        PLUGIN_NAME,
+        `${network} is not supported. The currently supported networks are
+            ${networks}.`,
+      );
+    }
+  }
 });
