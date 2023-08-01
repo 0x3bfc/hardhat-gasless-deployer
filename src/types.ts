@@ -1,4 +1,4 @@
-import { JsonRpcProvider, ExternalProvider } from '@ethersproject/providers';
+import { ExternalProvider, JsonRpcProvider } from "@ethersproject/providers";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface HHGaslessDeployerConfig {
