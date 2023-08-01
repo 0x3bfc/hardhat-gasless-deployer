@@ -7,7 +7,7 @@ export interface HHGaslessDeployerConfig {
   salt?: string;
   signer?: any;
   network?: string;
-  rpcUrl: JsonRpcProvider | ExternalProvider | undefined;
+  rpcUrl: any;
   paymaster_address?: string;
   relayer_hub_address?: string;
   forwarder?: string;

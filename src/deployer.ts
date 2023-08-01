@@ -58,20 +58,31 @@ export class Deployer {
       this.deployer,
     )) as Contract;
 
-    // init whitelist paymaster
-    await paymaster.setRelayHub(
-      this.env.config.hHGaslessDeployer.relayer_hub_address,
-    );
-    await paymaster.setTrustedForwarder(
-      this.env.config.hHGaslessDeployer.forwarder,
-    );
-    const deployerAddress = await this.deployer.getAddress();
-    await paymaster.whitelistSender(deployerAddress);
-
     this.paymasterAddress = await paymaster.getAddress();
 
     console.log(
       `Paymaster contract has been successfully deployed @ ${this.paymasterAddress}`,
+    );
+
+    // init whitelist paymaster
+    await paymaster.setRelayHub(
+      this.env.config.hHGaslessDeployer.relayer_hub_address,
+    );
+    console.log(
+      `RelayHub (this.env.config.hHGaslessDeployer.relayer_hub_address) has been successfully registerd at paymaster (${this.paymasterAddress})`,
+    );
+    await paymaster.setTrustedForwarder(
+      this.env.config.hHGaslessDeployer.forwarder,
+    );
+
+    console.log(
+      `Forwarder (this.env.config.hHGaslessDeployer.forwarder) has been successfully added to paymaster (${this.paymasterAddress})`,
+    );
+
+    const deployerAddress = await this.deployer.getAddress();
+    await paymaster.whitelistSender(deployerAddress, true);
+    console.log(
+      `Deployer (deployerAddress) has been successfully whitelisted at paymaster (${this.paymasterAddress})`,
     );
   }
 

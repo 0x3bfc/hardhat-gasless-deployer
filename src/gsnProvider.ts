@@ -4,6 +4,7 @@ import { HardhatPluginError } from "hardhat/plugins";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 
 import { PLUGIN_NAME } from "./constants";
+import { JsonRpcProvider } from "@ethersproject/providers";
 
 export async function getGSNProvider(hre: HardhatRuntimeEnvironment): Promise<{
   gsnProvider: BrowserProvider;
@@ -13,9 +14,10 @@ export async function getGSNProvider(hre: HardhatRuntimeEnvironment): Promise<{
   if (rpcUrl == undefined) {
     throw new HardhatPluginError(PLUGIN_NAME, `Invalid GSN RPC URL!`);
   }
+  const [deployer] = await hre.ethers.getSigners();
 
   return RelayProvider.newEthersV6Provider({
-    provider: rpcUrl,
+    provider: deployer as unknown as JsonRpcProvider,
     config: {
       loggerConfiguration: { logLevel: "debug" },
       paymasterAddress: hre.config.hHGaslessDeployer.paymaster_address,

@@ -1,3 +1,4 @@
+import { JsonRpcProvider } from "ethers";
 import { ConfigExtender } from "hardhat/types";
 
 export const hHGaslessDeployerConfigExtender: ConfigExtender = (
