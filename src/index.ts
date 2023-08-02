@@ -43,14 +43,12 @@ task("gaslessDeploy", "Deploy contract using GSN").setAction(async (_, hre) => {
         hre.config.hHGaslessDeployer.initArgsPath,
       );
 
-  // TODO: Should skip factory and paymaster deployment
-  // if they were already deployed
   const [deployer] = await hre.ethers.getSigners();
-  // This factory needs to be deployed with the paymaster
-  // in order to execute gasless deployments for future
-  // contracts.
+  // This factory needs to be deployed only once along
+  // with the paymaster in order to execute gasless
+  // deployments for future contracts.
   const factory = new Deployer(hre, deployer);
-  await factory.deployAndInitFactoryAndPaymaster();
+  await factory.deployAndInitFactoryAndPaymaster(hre);
 
   const salt = hre.config.hHGaslessDeployer.salt
     ? hre.config.hHGaslessDeployer.salt

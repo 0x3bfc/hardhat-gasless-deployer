@@ -1,6 +1,6 @@
 // supported networks
 export const networks = [
-  "localhost", // local gsn network
+  "gsn", // local gsn network
   // "hardhat", not supported yet
   "goerli",
 ];

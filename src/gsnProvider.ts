@@ -1,10 +1,10 @@
+import { JsonRpcProvider } from "@ethersproject/providers";
 import { RelayProvider } from "@opengsn/provider";
 import { BrowserProvider, Signer } from "ethers";
 import { HardhatPluginError } from "hardhat/plugins";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 
 import { PLUGIN_NAME } from "./constants";
-import { JsonRpcProvider } from "@ethersproject/providers";
 
 export async function getGSNProvider(hre: HardhatRuntimeEnvironment): Promise<{
   gsnProvider: BrowserProvider;
@@ -20,7 +20,7 @@ export async function getGSNProvider(hre: HardhatRuntimeEnvironment): Promise<{
     provider: deployer as unknown as JsonRpcProvider,
     config: {
       loggerConfiguration: { logLevel: "debug" },
-      paymasterAddress: hre.config.hHGaslessDeployer.paymaster_address,
+      paymasterAddress: hre.config.hHGaslessDeployer.paymaster,
     },
   });
 }

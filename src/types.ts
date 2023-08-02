@@ -8,8 +8,8 @@ export interface HHGaslessDeployerConfig {
   signer?: any;
   network?: string;
   rpcUrl: any;
-  paymaster_address?: string;
-  relayer_hub_address?: string;
+  paymaster?: string;
+  relayerHub?: string;
   forwarder?: string;
 }
 
