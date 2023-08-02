@@ -29,7 +29,7 @@ task("gaslessDeploy", "Deploy contract using GSN").setAction(async (_, hre) => {
   } else {
     throw new NomicLabsHardhatPluginError(
       PLUGIN_NAME,
-      `Invalid contract name!`,
+      `Contract doesn't exist!`,
     );
   }
 
@@ -56,7 +56,9 @@ task("gaslessDeploy", "Deploy contract using GSN").setAction(async (_, hre) => {
   // deploy target contract
   const target = await factory.deployTargetContract(hre, salt, initcode);
   console.log(
-    `Target contract "${hre.config.hHGaslessDeployer.contract}" has been deployed @ ${target}`,
+    `Target contract "${
+      hre.config.hHGaslessDeployer.contract
+    }" has been deployed @ ${JSON.stringify(target.contractAddress)}`,
   );
 });
 
