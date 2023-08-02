@@ -12,8 +12,8 @@ export const hHGaslessDeployerConfigExtender: ConfigExtender = (
     signer: undefined,
     network: undefined,
     rpcUrl: undefined,
-    paymaster_address: undefined,
-    relayer_hub_address: undefined,
+    paymaster: undefined,
+    relayerHub: undefined,
     forwarder: undefined,
   };
 

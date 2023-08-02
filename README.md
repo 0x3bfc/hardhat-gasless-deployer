@@ -35,10 +35,10 @@ module.exports = {
     contract:"THE_CONTRACT_NAME_TO_BE_DEPLOYED",
     initArgsPath: "PATH_TO_CONSTRUCTOR_ARGS_IN_TS_OR_JS",
     salt: "SALT_FOR_CREATE2_DEPLOYMENT", // Optional
-    networks: "localhost", // ie. local gsn network
+    network: "localhost", // ie. local gsn network
     rpcUrls: "http://127.0.0.1:8545",
-    paymaster_address: "GET_THIS_ADDRESS_FROM_YOUR_GSN_PROVIDER",
-    relayer_hub_address: "GET_THIS_ADDRESS_FROM_YOUR_GSN_PROVIDER",
+    paymaster: "GET_THIS_ADDRESS_FROM_YOUR_GSN_PROVIDER",
+    relayerHub: "GET_THIS_ADDRESS_FROM_YOUR_GSN_PROVIDER",
     forwarder: "GET_THIS_ADDRESS_FROM_YOUR_GSN_PROVIDER",
   },
 };
