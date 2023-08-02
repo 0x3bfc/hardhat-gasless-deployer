@@ -1,5 +1,7 @@
 # hardhat-gasless-deployer
 
+<a href="https://www.npmjs.com/package/hardhat-gasless-deployer"><img alt="hardhat-gasless-deployer Version" src="https://img.shields.io/npm/v/hardhat-gasless-deployer"></a>
+
 This hardhat plugin allows developers to execute gasless contracts deployments using a [GSN](https://opengsn.org/) provider.
 
 ## Installation
