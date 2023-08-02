@@ -3,8 +3,9 @@ import { ExternalProvider, JsonRpcProvider } from "@ethersproject/providers";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface HHGaslessDeployerConfig {
   contract?: string;
-  initArgsPath?: string; // constructor arguments
+  initArgsPath?: string; // constructor arguments file
   salt?: string;
+  value?: number;
   signer?: any;
   network?: string;
   rpcUrl: any;

@@ -35,6 +35,7 @@ module.exports = {
     contract:"THE_CONTRACT_NAME_TO_BE_DEPLOYED",
     initArgsPath: "PATH_TO_CONSTRUCTOR_ARGS_IN_TS_OR_JS",
     salt: "SALT_FOR_CREATE2_DEPLOYMENT", // Optional
+    value: "VALUE_IN_ETH_PASSED_TO_THE_DEPLOYED_CONTRACT",
     network: "localhost", // ie. local gsn network
     rpcUrls: "http://127.0.0.1:8545",
     paymaster: "GET_THIS_ADDRESS_FROM_YOUR_GSN_PROVIDER",

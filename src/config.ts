@@ -9,6 +9,7 @@ export const hHGaslessDeployerConfigExtender: ConfigExtender = (
     contract: undefined,
     initArgsPath: undefined,
     salt: undefined,
+    value: 0,
     signer: undefined,
     network: undefined,
     rpcUrl: undefined,

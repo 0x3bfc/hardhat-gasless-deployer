@@ -1,6 +1,6 @@
 {
   "name": "hardhat-gasless-deployer",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Hardhat Plugin for deploying contracts using GSN",
   "repository": "https://github.com/0x3bfc/hardhat-gasless-deployer",
   "author": "Ahmed Ali <ahmedaabdulwahed@gmail.com>",
